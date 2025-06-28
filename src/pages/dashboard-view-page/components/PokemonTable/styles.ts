@@ -8,7 +8,6 @@ const tableHeight = 50
 
 export const TableWrapper = styled.div`
   border-radius: 0.8rem;
-  overflow: hidden;
   display: flex;
   flex-direction: column;
   gap: 1rem;

@@ -1,7 +1,9 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
+import type { GetPokemonsResponse } from '@/state/rtk-query/models'
+import type { GetPokemonsCountPerGenerationResponse, GetPokemonsCountPerTypeResponse } from '@/state/rtk-query/models'
+
 import type { ListResponse, QueryParams } from '../models/api-models.ts'
-import type { GetPokemonsResponse } from './models/GetPokemonsResponse.ts'
 
 export const pokemonApi = createApi({
   reducerPath: 'pokemonApi',
@@ -9,11 +11,18 @@ export const pokemonApi = createApi({
   endpoints: (builder) => ({
     getPokemons: builder.query<ListResponse<GetPokemonsResponse>, QueryParams>({
       query: (params) => ({
-        url: '/pokemons',
+        url: '/pokemon',
         params,
       }),
+    }),
+    getPokemonsCountPerType: builder.query<GetPokemonsCountPerTypeResponse, void>({
+      query: () => '/pokemon/stats/type',
+    }),
+    getPokemonsCountPerGeneration: builder.query<GetPokemonsCountPerGenerationResponse, void>({
+      query: () => '/pokemon/stats/generation',
     }),
   }),
 })
 
-export const { useLazyGetPokemonsQuery } = pokemonApi
+export const { useLazyGetPokemonsQuery, useGetPokemonsCountPerTypeQuery, useGetPokemonsCountPerGenerationQuery } =
+  pokemonApi

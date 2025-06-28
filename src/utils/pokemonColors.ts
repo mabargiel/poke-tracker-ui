@@ -1,4 +1,16 @@
-export const colors: Record<string, string> = {
+export const pokeGenerationColors: Record<string, string> = {
+  'Generation I': '#FF6F61',
+  'Generation II': '#6B5B95',
+  'Generation III': '#88B04B',
+  'Generation IV': '#F7CAC9',
+  'Generation V': '#92A8D1',
+  'Generation VI': '#955251',
+  'Generation VII': '#B565A7',
+  'Generation VIII': '#009B77',
+  'Generation IX': '#DD4124',
+}
+
+export const pokeColors: Record<string, string> = {
   grass: '#8BC34A',
   poison: '#7E57C2',
   fire: '#FF5722',
