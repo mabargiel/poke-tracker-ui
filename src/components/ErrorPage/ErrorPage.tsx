@@ -6,5 +6,5 @@ type Props = {
 }
 
 export const ErrorPage = ({ error }: Props) => {
-  return <p>ERROR: {error?.toString()}</p>
+  return <p>ERROR: {JSON.stringify(error)}</p>
 }

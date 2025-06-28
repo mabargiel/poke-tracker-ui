@@ -8,11 +8,9 @@ export const pokemonApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_API_URL }),
   endpoints: (builder) => ({
     getPokemons: builder.query<ListResponse<GetPokemonsResponse>, QueryParams>({
-      // eslint-disable-next-line camelcase
-      query: ({ page_size = 25, page_number = 1 }) => ({
+      query: (params) => ({
         url: '/pokemons',
-        // eslint-disable-next-line camelcase
-        params: { page_size, page_number },
+        params,
       }),
     }),
   }),
