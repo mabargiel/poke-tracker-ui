@@ -4,49 +4,55 @@ import { CONSTANTS } from '@/utils/constants.ts'
 
 //TODO could not figure out how to make tBody occupy 100% of height and not overflow, seems like a known limitation
 const headerHeight = 4.4
-const tableHeight = 50
+const tableHeight = 34
 
 export const TableWrapper = styled.div`
-  border-radius: 0.8rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  overflow-x: auto;
+  overflow-y: clip;
+  border-radius: 0.8rem;
+  border: 1px solid ${CONSTANTS.uiColors.border};
 `
 
 export const StyledTable = styled.table`
-  width: 100%;
   border-collapse: collapse;
-  border: 1px solid ${CONSTANTS.uiColors.border};
   border-spacing: 0;
-  table-layout: fixed;
+  table-layout: auto;
+  width: 100%;
 
-  thead {
+  thead,
+  tbody {
     display: table;
     width: 100%;
     table-layout: fixed;
+  }
 
-    tr:first-child {
-      color: ${CONSTANTS.uiColors.textInverted};
-      background-color: ${CONSTANTS.uiColors.primary};
-    }
+  thead tr:first-child {
+    background-color: ${CONSTANTS.uiColors.primary};
+    color: ${CONSTANTS.uiColors.textInverted};
+  }
 
-    th {
-      padding: 1rem;
-      border-bottom: 1px solid ${CONSTANTS.uiColors.border};
-      position: sticky;
-      top: 0;
-      z-index: 2;
-      text-align: left;
-    }
+  th,
+  td {
+    padding: 1rem;
+    border-bottom: 1px dotted ${CONSTANTS.uiColors.border};
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   tbody {
     display: block;
     overflow-y: auto;
     height: calc(${tableHeight}rem - ${headerHeight}rem);
-    width: 100%;
 
     tr {
+      display: table;
+      width: 100%;
+      table-layout: fixed;
       transition:
         background-color 0.3s ease,
         transform 0.1s ease;
@@ -65,21 +71,11 @@ export const StyledTable = styled.table`
     }
   }
 
-  tr {
-    display: table;
-    table-layout: fixed;
-    width: 100%;
-  }
-
-  td {
-    padding: 1rem;
-    border-bottom: 1px solid ${CONSTANTS.uiColors.border};
-  }
-
   input,
   select {
-    max-width: 100%;
     width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
     padding: 0.5rem;
   }
 `
@@ -89,6 +85,7 @@ export const PageInfoContainer = styled.div`
   gap: 1rem;
   align-items: center;
   justify-content: flex-end;
+  padding: 0.2rem;
 `
 
 export const TableButtonsContainer = styled.div`

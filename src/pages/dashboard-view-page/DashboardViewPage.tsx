@@ -3,23 +3,23 @@ import {
   PokemonsCountPerType,
   PokemonTableContainer,
 } from '@/pages/dashboard-view-page/components'
+import { ChartColumn, ChartRow, PageLayout, TableContainer } from '@/pages/dashboard-view-page/styles.ts'
 
 const DashboardViewPage = () => {
   return (
-    <div
-      style={{
-        maxHeight: '100vh',
-        overflowY: 'auto',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '1rem',
-        padding: '1rem',
-      }}
-    >
-      <PokemonsCountPerType />
-      <PokemonsCountPerGeneration />
-      <PokemonTableContainer />
-    </div>
+    <PageLayout>
+      <ChartRow>
+        <ChartColumn>
+          <PokemonsCountPerType />
+        </ChartColumn>
+        <ChartColumn>
+          <PokemonsCountPerGeneration />
+        </ChartColumn>
+      </ChartRow>
+      <TableContainer>
+        <PokemonTableContainer />
+      </TableContainer>
+    </PageLayout>
   )
 }
 
