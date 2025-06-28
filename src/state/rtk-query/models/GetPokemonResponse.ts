@@ -8,7 +8,7 @@ export interface PokemonEvolution {
   to: string[]
 }
 
-export interface GetPokemonsResponse {
+export interface GetPokemonResponse {
   number: number
   name: string
   generation: string

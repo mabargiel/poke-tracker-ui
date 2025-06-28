@@ -29,9 +29,12 @@ export const StyledTable = styled.table`
     table-layout: fixed;
   }
 
-  thead tr:first-child {
-    background-color: ${CONSTANTS.uiColors.primary};
-    color: ${CONSTANTS.uiColors.textInverted};
+  thead {
+    tr:first-child {
+      background-color: ${CONSTANTS.uiColors.primary};
+      color: ${CONSTANTS.uiColors.textInverted};
+      cursor: pointer;
+    }
   }
 
   th,
@@ -70,14 +73,6 @@ export const StyledTable = styled.table`
       }
     }
   }
-
-  input,
-  select {
-    width: 100%;
-    max-width: 100%;
-    box-sizing: border-box;
-    padding: 0.5rem;
-  }
 `
 
 export const PageInfoContainer = styled.div`
@@ -85,32 +80,11 @@ export const PageInfoContainer = styled.div`
   gap: 1rem;
   align-items: center;
   justify-content: flex-end;
-  padding: 0.2rem;
+  padding: 1rem;
 `
 
 export const TableButtonsContainer = styled.div`
   display: flex;
   gap: 0.4rem;
   align-items: center;
-`
-
-type TableButtonProps = {
-  disabled?: boolean
-}
-
-export const TableButton = styled.button<TableButtonProps>`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.4rem 1.2rem;
-  height: 3.2rem;
-  font-size: 1.6rem;
-  line-height: 1;
-  color: ${CONSTANTS.uiColors.textInverted};
-  background-color: ${({ disabled }) => (disabled ? CONSTANTS.uiColors.disabled : CONSTANTS.uiColors.primary)};
-  border: none;
-  border-radius: 0.8rem;
-  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
-  transition: background-color 0.2s ease;
-  opacity: ${({ disabled }) => (disabled ? 0.6 : 1)};
 `

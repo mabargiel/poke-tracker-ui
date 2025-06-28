@@ -1,10 +1,11 @@
-import type { GetPokemonsResponse } from '@/state/rtk-query/models/GetPokemonsResponse'
+import { Button } from '@/components/Inputs/Button.tsx'
+import type { GetPokemonResponse } from '@/state/rtk-query/models/GetPokemonResponse.ts'
 
-import { PageInfoContainer, StyledTable, TableButton, TableButtonsContainer, TableWrapper } from './styles'
+import { PageInfoContainer, StyledTable, TableButtonsContainer, TableWrapper } from './styles'
 import type { Column } from './types'
 
 type Props = {
-  data: GetPokemonsResponse[]
+  data: GetPokemonResponse[]
   page: number
   onPageChange: (page: number) => void
   canGoNext: boolean
@@ -13,6 +14,9 @@ type Props = {
   onFilterChange?: (column: string, value: string) => void
   filters?: Record<string, string>
   isFetching: boolean
+  onRowClick: (number: number) => void
+  onSortClick: (column: string) => void
+  sort?: { column: string; direction: 'asc' | 'desc' } | undefined
 }
 
 export const PokemonTable = ({
@@ -25,6 +29,9 @@ export const PokemonTable = ({
   onFilterChange,
   filters,
   isFetching,
+  onRowClick,
+  onSortClick,
+  sort,
 }: Props) => {
   const handlePageChange = (page: number) => {
     onPageChange(page)
@@ -36,7 +43,10 @@ export const PokemonTable = ({
         <thead>
           <tr>
             {columns.map((column) => (
-              <th key={column.key}>{column.label}</th>
+              <th key={column.key} onClick={() => onSortClick(column.key)}>
+                {column.label}
+                {sort?.column === column.key && (sort.direction === 'asc' ? ' ▲' : ' ▼')}
+              </th>
             ))}
           </tr>
           <tr>
@@ -70,7 +80,7 @@ export const PokemonTable = ({
             </tr>
           ) : (
             data.map((pokemon) => (
-              <tr key={pokemon.number}>
+              <tr key={pokemon.number} onClick={() => onRowClick(pokemon.number)}>
                 {columns.map((column) => (
                   <td key={column.key}>
                     {column.render
@@ -88,12 +98,12 @@ export const PokemonTable = ({
       <PageInfoContainer>
         <span>Page {page}</span>
         <TableButtonsContainer>
-          <TableButton onClick={() => handlePageChange(page - 1)} disabled={!canGoPrev}>
+          <Button onClick={() => handlePageChange(page - 1)} disabled={!canGoPrev}>
             &lt;
-          </TableButton>
-          <TableButton onClick={() => handlePageChange(page + 1)} disabled={!canGoNext}>
+          </Button>
+          <Button onClick={() => handlePageChange(page + 1)} disabled={!canGoNext}>
             &gt;
-          </TableButton>
+          </Button>
         </TableButtonsContainer>
       </PageInfoContainer>
     </TableWrapper>

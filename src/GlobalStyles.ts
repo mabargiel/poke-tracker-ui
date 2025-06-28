@@ -25,9 +25,17 @@ const GlobalStyles = createGlobalStyle`
   body {
     font-family: 'Lato', sans-serif;
     font-size: 1.6rem;
-    background-color: ${CONSTANTS.uiColors.background};
+    background: ${CONSTANTS.uiColors.background};
     color: ${CONSTANTS.uiColors.textPrimary};
     line-height: 1.6;
+  }
+
+  input,
+  select {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 0.5rem;
   }
 `
 

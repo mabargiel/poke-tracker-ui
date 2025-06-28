@@ -1,4 +1,15 @@
-import { Bar, BarChart, CartesianGrid, Cell, Rectangle, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Cell,
+  LabelList,
+  Rectangle,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from 'recharts'
 
 import { ErrorPage, Spinner } from '@/components'
 import { ChartWrapper, CountContainer } from '@/pages/dashboard-view-page/components/Counts/styles.ts'
@@ -12,7 +23,7 @@ export const PokemonsCountPerType = () => {
 
   return (
     <CountContainer>
-      <h3>Pokemons per type</h3>
+      <h4>Count per type</h4>
       {data &&
         (isFetching ? (
           <Spinner />
@@ -25,6 +36,7 @@ export const PokemonsCountPerType = () => {
                 <YAxis />
                 <Tooltip />
                 <Bar dataKey="count" activeBar={<Rectangle fill={CONSTANTS.uiColors.primary} />}>
+                  <LabelList dataKey="count" position="insideTop" fill={CONSTANTS.uiColors.textPrimary} />
                   {data.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={CONSTANTS.pokeColors[entry.type.toLowerCase()] ?? '#ccc'} />
                   ))}

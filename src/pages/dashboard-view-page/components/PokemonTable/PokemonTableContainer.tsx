@@ -1,8 +1,11 @@
 import debounce from 'lodash/debounce'
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import { ErrorPage } from '@/components'
+import { ChipList } from '@/components/Data/ChipList.tsx'
 import type { Column } from '@/pages/dashboard-view-page/components/PokemonTable/types.ts'
+import type { QueryParams } from '@/state/models/api-models.ts'
 import { useLazyGetPokemonsQuery } from '@/state/rtk-query/apiSlice.ts'
 
 import { PokemonTable } from './PokemonTable.tsx'
@@ -45,10 +48,12 @@ export const PokemonTableContainer = () => {
   const [trigger, { data: response, error, isError, isFetching }] = useLazyGetPokemonsQuery()
   const [page, setPage] = useState<number>(1)
   const [filters, setFilters] = useState<Record<string, string>>()
+  const [sort, setSort] = useState<{ column: string; direction: 'asc' | 'desc' }>()
+  const navigate = useNavigate()
 
-  const debouncedTrigger = useMemo(() => debounce((params) => trigger(params), 500), [trigger])
+  const debouncedTrigger = useMemo(() => debounce((params: QueryParams) => trigger(params), 500), [trigger])
 
-  //TODO I am sending filters as serialized object, but better approach would be using odata query string
+  //TODO I am sending filters and sort as serialized object, but better approach would be using odata query string
   useEffect(() => {
     debouncedTrigger({
       // eslint-disable-next-line camelcase
@@ -56,8 +61,9 @@ export const PokemonTableContainer = () => {
       // eslint-disable-next-line camelcase
       page_size: 25,
       filter: filters ? JSON.stringify(filters) : undefined,
+      sort: sort ? JSON.stringify(sort) : undefined,
     })
-  }, [page, filters, debouncedTrigger])
+  }, [page, filters, debouncedTrigger, sort])
 
   useEffect(() => {
     return () => debouncedTrigger.cancel()
@@ -66,6 +72,18 @@ export const PokemonTableContainer = () => {
   const handleFilterChange = useCallback((column: string, value: string) => {
     setFilters((prev) => ({ ...prev, [column]: value }))
   }, [])
+
+  function handleSortClick(column: string) {
+    setSort((prev) => {
+      if (!prev || prev.column !== column) {
+        return { column, direction: 'asc' }
+      }
+      return {
+        column,
+        direction: prev.direction === 'asc' ? 'desc' : 'asc',
+      }
+    })
+  }
 
   const columns: Column[] = useMemo(
     () => [
@@ -110,7 +128,7 @@ export const PokemonTableContainer = () => {
         key: 'type',
         label: 'Type',
         filterable: true,
-        render: (pokemon) => pokemon.types.join(', '),
+        render: (pokemon) => <ChipList types={pokemon.types} />,
         renderFilter: ({ value, onChange }) => (
           <select value={value} onChange={(e) => onChange(e.target.value)}>
             <option value="">All</option>
@@ -145,6 +163,11 @@ export const PokemonTableContainer = () => {
       canGoNext={page < (response?.pagination.totalPages ?? 1)}
       canGoPrev={page > 1}
       isFetching={isFetching}
+      onRowClick={(num: number) => {
+        navigate('/pokemons/' + num)
+      }}
+      onSortClick={handleSortClick}
+      sort={sort}
     />
   )
 }

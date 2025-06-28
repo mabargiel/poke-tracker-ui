@@ -11,5 +11,6 @@ export interface ListResponse<T> {
 export interface QueryParams {
   page_size?: number
   page_number?: number
-  filter?: Record<string, string>
+  filter?: string
+  sort?: string
 }
