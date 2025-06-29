@@ -17,8 +17,7 @@ export const TableWrapper = styled.div`
 
 export const StyledTableContainer = styled.div`
   max-height: ${tableHeight}rem;
-  overflow-x: auto;
-  overflow-y: hidden;
+  overflow: auto hidden;
 `
 
 export const StyledTable = styled.table`
