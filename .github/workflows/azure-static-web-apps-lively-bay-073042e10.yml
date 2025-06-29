@@ -26,6 +26,8 @@ jobs:
           node-version: '20.19.0'
 
       - name: Install and Build
+        env:
+          VITE_API_URL: 'https://poke-tracker-api-cqczengad9bsdagn.polandcentral-01.azurewebsites.net/api/'
         run: |
           npm install
           npm run build
