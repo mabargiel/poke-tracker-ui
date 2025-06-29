@@ -1,5 +1,7 @@
 import styled from 'styled-components'
 
+import { media } from '@/utils/breakpoints.ts'
+
 export const PageLayout = styled.div`
   max-height: 100%;
   overflow-y: auto;
@@ -13,6 +15,10 @@ export const ChartRow = styled.div`
   display: flex;
   gap: 1rem;
   flex-wrap: wrap;
+
+  ${media.down('mobile')} {
+    flex-flow: column nowrap;
+  }
 `
 
 export const ChartColumn = styled.div`

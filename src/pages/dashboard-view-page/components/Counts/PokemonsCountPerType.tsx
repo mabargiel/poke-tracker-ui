@@ -1,3 +1,4 @@
+import { useMediaQuery } from 'react-responsive' // 👈 Import this
 import {
   Bar,
   BarChart,
@@ -18,6 +19,7 @@ import { CONSTANTS } from '@/utils/constants.ts'
 
 export const PokemonsCountPerType = () => {
   const { data, isError, error, isFetching } = useGetPokemonsCountPerTypeQuery()
+  const isMobile = useMediaQuery({ maxWidth: CONSTANTS.breakpoints.mobile })
 
   if (isError) return <ErrorPage error={error} />
 
@@ -30,13 +32,37 @@ export const PokemonsCountPerType = () => {
         ) : (
           <ChartWrapper>
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={data} margin={{ bottom: 30 }}>
+              <BarChart
+                data={data}
+                layout={isMobile ? 'vertical' : 'horizontal'}
+                margin={{ bottom: isMobile ? 0 : 30, right: isMobile ? 30 : 0, left: isMobile ? -20 : 0 }}
+              >
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="type" angle={-45} textAnchor="end" interval={0} />
-                <YAxis />
+                {isMobile ? (
+                  <>
+                    <XAxis type="number" />
+                    <YAxis type="category" dataKey="type" width={100} tick={{ fontSize: 12 }} />
+                  </>
+                ) : (
+                  <>
+                    <XAxis
+                      dataKey="type"
+                      angle={-45}
+                      textAnchor="end"
+                      interval={0}
+                      height={60}
+                      tick={{ fontSize: 12 }}
+                    />
+                    <YAxis />
+                  </>
+                )}
                 <Tooltip />
                 <Bar dataKey="count" activeBar={<Rectangle fill={CONSTANTS.uiColors.primary} />}>
-                  <LabelList dataKey="count" position="insideTop" fill={CONSTANTS.uiColors.textPrimary} />
+                  <LabelList
+                    dataKey="count"
+                    position={isMobile ? 'right' : 'insideTop'}
+                    fill={CONSTANTS.uiColors.textPrimary}
+                  />
                   {data.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={CONSTANTS.pokeColors[entry.type.toLowerCase()] ?? '#ccc'} />
                   ))}

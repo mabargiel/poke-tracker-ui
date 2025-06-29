@@ -1,3 +1,4 @@
+import { breakpoints } from '@/utils/breakpoints.ts'
 import { pokeColors, pokeGenerationColors, statColors } from '@/utils/pokemonColors.ts'
 import { uiColors } from '@/utils/uiColors.ts'
 
@@ -6,4 +7,5 @@ export const CONSTANTS = {
   pokeColors: pokeColors,
   pokeGenerationColors: pokeGenerationColors,
   statColors: statColors,
+  breakpoints: breakpoints,
 }

@@ -23,7 +23,7 @@ const GlobalStyles = createGlobalStyle`
   }
 
   body {
-    font-family: 'Lato', sans-serif;
+    font-family: Lato, sans-serif;
     font-size: 1.6rem;
     background: ${CONSTANTS.uiColors.background};
     color: ${CONSTANTS.uiColors.textPrimary};

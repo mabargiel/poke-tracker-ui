@@ -48,10 +48,13 @@ export const PokemonTableContainer = () => {
   const [trigger, { data: response, error, isError, isFetching }] = useLazyGetPokemonsQuery()
   const [page, setPage] = useState<number>(1)
   const [filters, setFilters] = useState<Record<string, string>>()
-  const [sort, setSort] = useState<{ column: string; direction: 'asc' | 'desc' }>()
+  const [sort, setSort] = useState<{ key: string; direction: 'asc' | 'desc' }>()
   const navigate = useNavigate()
 
-  const debouncedTrigger = useMemo(() => debounce((params: QueryParams) => trigger(params), 500), [trigger])
+  const debouncedTrigger = useMemo(
+    () => debounce((params: QueryParams) => trigger(params), 500, { leading: true, trailing: true }),
+    [trigger],
+  )
 
   //TODO I am sending filters and sort as serialized object, but better approach would be using odata query string
   useEffect(() => {
@@ -69,17 +72,29 @@ export const PokemonTableContainer = () => {
     return () => debouncedTrigger.cancel()
   }, [debouncedTrigger])
 
+  useEffect(() => {
+    setPage(1)
+  }, [filters, sort])
+
   const handleFilterChange = useCallback((column: string, value: string) => {
-    setFilters((prev) => ({ ...prev, [column]: value }))
+    setFilters((prev) => {
+      const updated = { ...prev }
+      if (!value) {
+        delete updated[column]
+      } else {
+        updated[column] = value
+      }
+      return updated
+    })
   }, [])
 
   function handleSortClick(column: string) {
     setSort((prev) => {
-      if (!prev || prev.column !== column) {
-        return { column, direction: 'asc' }
+      if (!prev || prev.key !== column) {
+        return { key: column, direction: 'asc' }
       }
       return {
-        column,
+        key: column,
         direction: prev.direction === 'asc' ? 'desc' : 'asc',
       }
     })
@@ -92,6 +107,20 @@ export const PokemonTableContainer = () => {
         label: '#',
         sortable: true,
         filterable: true,
+        renderFilter: ({ value, onChange }) => (
+          <input
+            onChange={(e) => {
+              const val = e.target.value
+              if (/^\d*$/.test(val)) {
+                onChange?.(val)
+              }
+            }}
+            inputMode="numeric"
+            pattern="\d*"
+            value={value}
+            placeholder="filter..."
+          />
+        ),
       },
       {
         key: 'name',
@@ -164,10 +193,11 @@ export const PokemonTableContainer = () => {
       canGoPrev={page > 1}
       isFetching={isFetching}
       onRowClick={(num: number) => {
-        navigate('/pokemons/' + num)
+        navigate('/pokemon/' + num)
       }}
       onSortClick={handleSortClick}
       sort={sort}
+      pagination={response?.pagination}
     />
   )
 }

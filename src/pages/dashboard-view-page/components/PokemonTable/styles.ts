@@ -9,11 +9,16 @@ const tableHeight = 34
 export const TableWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  overflow-x: auto;
-  overflow-y: clip;
-  border-radius: 0.8rem;
   border: 1px solid ${CONSTANTS.uiColors.border};
+  border-radius: 0.8rem;
+  overflow: hidden;
+  max-height: 100%;
+`
+
+export const StyledTableContainer = styled.div`
+  max-height: ${tableHeight}rem;
+  overflow-x: auto;
+  overflow-y: hidden;
 `
 
 export const StyledTable = styled.table`
@@ -21,12 +26,40 @@ export const StyledTable = styled.table`
   border-spacing: 0;
   table-layout: auto;
   width: 100%;
+  min-width: fit-content;
 
   thead,
   tbody {
     display: table;
     width: 100%;
     table-layout: fixed;
+  }
+
+  tbody {
+    display: block;
+    overflow: auto;
+    height: calc(${tableHeight}rem - ${headerHeight}rem);
+  }
+
+  tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    transition:
+      background-color 0.3s ease,
+      transform 0.1s ease;
+
+    &:hover {
+      background-color: ${CONSTANTS.uiColors.secondary};
+      cursor: pointer;
+      color: ${CONSTANTS.uiColors.textInverted};
+    }
+
+    &:active {
+      background-color: ${CONSTANTS.uiColors.secondaryDark};
+      color: ${CONSTANTS.uiColors.textInverted};
+      transform: scale(0.98);
+    }
   }
 
   thead {
@@ -45,33 +78,29 @@ export const StyledTable = styled.table`
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    width: 120px;
+    min-width: 120px;
+    max-width: 1px; /* a very weird hack, but works with table-layout: fixed */
   }
+`
 
-  tbody {
-    display: block;
-    overflow-y: auto;
-    height: calc(${tableHeight}rem - ${headerHeight}rem);
+export const PokemonTableFooter = styled.div`
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 1rem;
+  background: ${CONSTANTS.uiColors.background};
+  border-top: 1px solid ${CONSTANTS.uiColors.border};
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
 
-    tr {
-      display: table;
-      width: 100%;
-      table-layout: fixed;
-      transition:
-        background-color 0.3s ease,
-        transform 0.1s ease;
-
-      &:hover {
-        background-color: ${CONSTANTS.uiColors.secondary};
-        cursor: pointer;
-        color: ${CONSTANTS.uiColors.textInverted};
-      }
-
-      &:active {
-        background-color: ${CONSTANTS.uiColors.secondaryDark};
-        color: ${CONSTANTS.uiColors.textInverted};
-        transform: scale(0.98);
-      }
-    }
+  div:first-child {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
   }
 `
 
@@ -80,7 +109,6 @@ export const PageInfoContainer = styled.div`
   gap: 1rem;
   align-items: center;
   justify-content: flex-end;
-  padding: 1rem;
 `
 
 export const TableButtonsContainer = styled.div`

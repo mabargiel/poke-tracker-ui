@@ -11,20 +11,20 @@ export const pokemonApi = createApi({
   endpoints: (builder) => ({
     getPokemons: builder.query<ListResponse<GetPokemonResponse>, QueryParams>({
       query: (params) => ({
-        url: '/pokemons',
+        url: '/pokemon',
         params,
       }),
     }),
     getPokemonById: builder.query<GetPokemonResponse, string>({
-      query: (id) => ({
-        url: `/pokemons/${id}`,
+      query: (number) => ({
+        url: `/pokemon/${number}`,
       }),
     }),
     getPokemonsCountPerType: builder.query<GetPokemonsCountPerTypeResponse, void>({
-      query: () => '/pokemon/stats/type',
+      query: () => '/pokemonCounts/type',
     }),
     getPokemonsCountPerGeneration: builder.query<GetPokemonsCountPerGenerationResponse, void>({
-      query: () => '/pokemon/stats/generation',
+      query: () => '/pokemonCounts/generation',
     }),
   }),
 })

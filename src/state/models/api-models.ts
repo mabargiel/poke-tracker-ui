@@ -1,11 +1,13 @@
 export interface ListResponse<T> {
-  pagination: {
-    pageSize: number
-    pageNumber: number
-    totalItems: number
-    totalPages: number
-  }
+  pagination: Pagination
   items: T[]
+}
+
+export interface Pagination {
+  pageSize: number
+  pageNumber: number
+  totalItems: number
+  totalPages: number
 }
 
 export interface QueryParams {

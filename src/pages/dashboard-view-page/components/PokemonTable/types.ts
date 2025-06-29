@@ -8,5 +8,5 @@ export type Column = {
   sortable?: boolean
   filterable?: boolean
   render?: (item: GetPokemonResponse) => React.ReactNode
-  renderFilter?: (props: { value: string; onChange: (value: string) => void }) => React.ReactNode
+  renderFilter?: (props: { value: string; onChange: (value: string) => void; rawValue?: unknown }) => React.ReactNode
 }
