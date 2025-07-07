@@ -40,7 +40,7 @@ export const PokemonsCountPerGeneration = () => {
                 <CartesianGrid strokeDasharray="3 3" />
                 {isMobile ? (
                   <>
-                    <XAxis />
+                    <XAxis type="number" />
                     <YAxis type="category" dataKey="generation" width={100} tick={{ fontSize: 12 }} />
                   </>
                 ) : (
